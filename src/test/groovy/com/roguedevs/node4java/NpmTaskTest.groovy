@@ -10,7 +10,7 @@ import org.junit.Test
  * Date: 5/14/13
  * Time: 5:22 PM
  */
-class NodeTaskTest extends BuildFileTest {
+class NpmTaskTest extends BuildFileTest {
 
     final shouldFail = new GroovyTestCase().&shouldFail
 
@@ -29,7 +29,7 @@ class NodeTaskTest extends BuildFileTest {
 
     protected File logFile;
 
-    public NodeTaskTest(String name) {
+    public NpmTaskTest(String name) {
         super(name);
     }
 
@@ -65,50 +65,49 @@ class NodeTaskTest extends BuildFileTest {
 
     @Test
     void testConstructor(){
-        NodeTask nodeTask = new NodeTask()
-        assert nodeTask.cmdl.getExecutable() == 'node'
+        NpmTask npmTask = new NpmTask()
+        assert npmTask.cmdl.getExecutable() == 'npm'
     }
 
     @Test
     void testExecNotFound(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.project = this.project
-        nodeTask.searchPath = false
-        nodeTask.executable = '/not/path/to/node'
+        NpmTask npmTask = new NpmTask()
+        npmTask.project = this.project
+        npmTask.searchPath = false
+        npmTask.executable = '/not/path/to/npm'
         String message = shouldFail(BuildException){
-            nodeTask.execute()
+            npmTask.execute()
         }
         assertTrue message.startsWith("Could not find ")
     }
 
     @Test
     void testExecPass(){
-        NodeTask nodeTask = new NodeTask()
-//        nodeTask.setExecutable("/usr/local/bin/node")
-        nodeTask.setProject(this.project)
-        nodeTask.createArg().setValue("--version")
-        nodeTask.createArg().setValue("--help")
-        nodeTask.execute()
-        assert logBuffer.toString().startsWith('v')
+        NpmTask npmTask = new NpmTask()
+        npmTask.setExecutable("/usr/local/bin/npm")
+        npmTask.setProject(this.project)
+        npmTask.createArg().setValue("--version")
+        npmTask.execute()
+        assert logBuffer.toString().startsWith('1')
     }
 
     @Test
     void testExecInvalidCommand(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.setProject(this.project)
-        nodeTask.createArg().setValue("blah blah blah")
+        NpmTask npmTask = new NpmTask()
+        npmTask.setProject(this.project)
+        npmTask.createArg().setValue("blah blah blah")
         String message = shouldFail(BuildException){
-            nodeTask.execute();
+            npmTask.execute();
         }
         assert message
     }
 
     @Test
     void testExecNoArguments(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.setProject(this.project)
+        NpmTask npmTask = new NpmTask()
+        npmTask.setProject(this.project)
         String message = shouldFail(BuildException){
-            nodeTask.execute();
+            npmTask.execute();
         }
         assert message
     }

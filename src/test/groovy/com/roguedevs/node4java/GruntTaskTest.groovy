@@ -10,7 +10,7 @@ import org.junit.Test
  * Date: 5/14/13
  * Time: 5:22 PM
  */
-class NodeTaskTest extends BuildFileTest {
+class GruntTaskTest extends BuildFileTest {
 
     final shouldFail = new GroovyTestCase().&shouldFail
 
@@ -29,7 +29,7 @@ class NodeTaskTest extends BuildFileTest {
 
     protected File logFile;
 
-    public NodeTaskTest(String name) {
+    public GruntTaskTest(String name) {
         super(name);
     }
 
@@ -65,50 +65,49 @@ class NodeTaskTest extends BuildFileTest {
 
     @Test
     void testConstructor(){
-        NodeTask nodeTask = new NodeTask()
-        assert nodeTask.cmdl.getExecutable() == 'node'
+        GruntTask gruntTask = new GruntTask()
+        assert gruntTask.cmdl.getExecutable() == 'grunt'
     }
 
     @Test
     void testExecNotFound(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.project = this.project
-        nodeTask.searchPath = false
-        nodeTask.executable = '/not/path/to/node'
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.project = this.project
+        gruntTask.searchPath = false
+        gruntTask.executable = '/not/path/to/grunt'
         String message = shouldFail(BuildException){
-            nodeTask.execute()
+            gruntTask.execute()
         }
         assertTrue message.startsWith("Could not find ")
     }
 
     @Test
     void testExecPass(){
-        NodeTask nodeTask = new NodeTask()
-//        nodeTask.setExecutable("/usr/local/bin/node")
-        nodeTask.setProject(this.project)
-        nodeTask.createArg().setValue("--version")
-        nodeTask.createArg().setValue("--help")
-        nodeTask.execute()
-        assert logBuffer.toString().startsWith('v')
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setExecutable("/usr/local/share/npm/bin/grunt")
+        gruntTask.setProject(this.project)
+        gruntTask.createArg().setValue("--version")
+        gruntTask.execute()
+        assert logBuffer.toString().startsWith("g")
     }
 
     @Test
     void testExecInvalidCommand(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.setProject(this.project)
-        nodeTask.createArg().setValue("blah blah blah")
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setProject(this.project)
+        gruntTask.createArg().setValue("blah blah blah")
         String message = shouldFail(BuildException){
-            nodeTask.execute();
+            gruntTask.execute();
         }
         assert message
     }
 
     @Test
     void testExecNoArguments(){
-        NodeTask nodeTask = new NodeTask()
-        nodeTask.setProject(this.project)
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setProject(this.project)
         String message = shouldFail(BuildException){
-            nodeTask.execute();
+            gruntTask.execute();
         }
         assert message
     }

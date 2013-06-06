@@ -14,9 +14,6 @@ import java.io.File;
  */
 public class NodeTask extends ExecTask {
 
-//    protected String _executable = "";
-//    protected String cmdArgs = "";
-//    protected boolean haveCmdArgs = false;
     protected boolean searchPath = true;
 
     public NodeTask() {
@@ -25,26 +22,6 @@ public class NodeTask extends ExecTask {
         this.setFailonerror(true);
     }
 
-//    /**
-//     * Set the name of the executable program.
-//     * @param value the name of the executable program.
-//     */
-//    public void setExecutable(String value) {
-//        super.setExecutable(value);
-//        this._executable = value;
-//    }
-
-//    /**
-//     * Set the arguments for the command.
-//     *
-//     * @param _cmdArgs
-//     */
-//    public void setCmdArgs(String _cmdArgs) {
-//        createArg().setValue(_cmdArgs);
-//        this.haveCmdArgs = true;
-//        this.cmdArgs = _cmdArgs;
-//    }
-
     @Override
     public void execute() throws BuildException {
         //run node command with arguments
@@ -52,22 +29,17 @@ public class NodeTask extends ExecTask {
         if (!isValidOs()) {
             return;
         }
-        //cmdl.setExecutable(resolveExecutable(this.cmdl.getExecutable(), searchPath));
-        //Commandline.Argument cmdlArgs = new Commandline.Argument();
-        //cmdlArgs.setLine(cmdArgs);
+
         checkConfiguration();
         runExec(prepareExec());
     }
 
     @Override
     protected void checkConfiguration() throws BuildException {
-    //protected void checkConfiguratin(){
         cmdl.setExecutable(resolveExecutable(this.cmdl.getExecutable(), searchPath));
-        //cmdl.setExecutable(resolveExecutable(this._executable, searchPath));
-        //checkConfiguration();
         File executableFile = new File(cmdl.getExecutable());
         if (!executableFile.exists()){
-            throw new BuildException("Could not find "+ this.cmdl.getExecutable() + " on the path");
+                throw new BuildException("Could not find "+ this.cmdl.getExecutable() + " on the path " );
         }
 
         if (this.cmdl.getArguments().length < 1){
