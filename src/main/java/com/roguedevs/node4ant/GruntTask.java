@@ -1,4 +1,4 @@
-package com.roguedevs.node4java;
+package com.roguedevs.node4ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.ExecTask;

@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<antlib>
-    <typedef name="node" classname="com.roguedevs.node4java.NodeTask" />
-    <typedef name="npm" classname="com.roguedevs.node4java.NpmTask"/>
-    <typedef name="grunt" classname="com.roguedevs.node4java.GruntTask"/>
-</antlib>

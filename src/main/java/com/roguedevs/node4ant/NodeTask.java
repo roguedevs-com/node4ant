@@ -1,6 +1,7 @@
-package com.roguedevs.node4java;
+package com.roguedevs.node4ant;
 
 import org.apache.tools.ant.BuildException;
+
 import org.apache.tools.ant.taskdefs.ExecTask;
 
 import java.io.File;
@@ -10,12 +11,12 @@ import java.io.File;
  * Date: 5/14/13
  * Time: 5:04 PM
  */
-public class NpmTask extends ExecTask {
-    //confirm node is available
+public class NodeTask extends ExecTask {
+
     protected boolean searchPath = true;
 
-    public NpmTask() {
-        super.setExecutable("npm");
+    public NodeTask() {
+        super.setExecutable("node");
         this.setResolveExecutable(true);
         this.setFailonerror(true);
     }

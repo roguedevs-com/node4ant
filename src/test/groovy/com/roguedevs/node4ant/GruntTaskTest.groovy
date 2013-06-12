@@ -1,4 +1,4 @@
-package com.roguedevs.node4java
+package com.roguedevs.node4ant
 
 import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.BuildFileTest
@@ -10,7 +10,7 @@ import org.junit.Test
  * Date: 5/14/13
  * Time: 5:22 PM
  */
-class NpmTaskTest extends BuildFileTest {
+class GruntTaskTest extends BuildFileTest {
 
     final shouldFail = new GroovyTestCase().&shouldFail
 
@@ -29,7 +29,7 @@ class NpmTaskTest extends BuildFileTest {
 
     protected File logFile;
 
-    public NpmTaskTest(String name) {
+    public GruntTaskTest(String name) {
         super(name);
     }
 
@@ -65,50 +65,49 @@ class NpmTaskTest extends BuildFileTest {
 
     @Test
     void testConstructor(){
-        NpmTask npmTask = new NpmTask()
-        assert npmTask.cmdl.getExecutable() == 'npm'
+        GruntTask gruntTask = new GruntTask()
+        assert gruntTask.cmdl.getExecutable() == 'grunt'
     }
 
     @Test
     void testExecNotFound(){
-        NpmTask npmTask = new NpmTask()
-        npmTask.project = this.project
-        npmTask.searchPath = false
-        npmTask.executable = '/not/path/to/npm'
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.project = this.project
+        gruntTask.searchPath = false
+        gruntTask.executable = '/not/path/to/grunt'
         String message = shouldFail(BuildException){
-            npmTask.execute()
+            gruntTask.execute()
         }
         assertTrue message.startsWith("Could not find ")
     }
 
     @Test
     void testExecPass(){
-        NpmTask npmTask = new NpmTask()
-        npmTask.setExecutable("/usr/local/bin/npm")
-        npmTask.setProject(this.project)
-        npmTask.createArg().setValue("--version")
-        npmTask.execute()
-        assert logBuffer.toString().startsWith('1')
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setExecutable("/usr/local/share/npm/bin/grunt")
+        gruntTask.setProject(this.project)
+        gruntTask.createArg().setValue("--version")
+        gruntTask.execute()
+        assert logBuffer.toString().startsWith("g")
     }
 
     @Test
     void testExecInvalidCommand(){
-//        NpmTask npmTask = new NpmTask()
-//        npmTask.setProject(this.project)
-//        npmTask.createArg().setValue("blah blah blah")
-//        String message = shouldFail(BuildException){
-//            npmTask.execute();
-//            println logBuffer
-//        }
-//        assert message
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setProject(this.project)
+        gruntTask.createArg().setValue("blah blah blah")
+        String message = shouldFail(BuildException){
+            gruntTask.execute();
+        }
+        assert message
     }
 
     @Test
     void testExecNoArguments(){
-        NpmTask npmTask = new NpmTask()
-        npmTask.setProject(this.project)
+        GruntTask gruntTask = new GruntTask()
+        gruntTask.setProject(this.project)
         String message = shouldFail(BuildException){
-            npmTask.execute();
+            gruntTask.execute();
         }
         assert message
     }
