@@ -56,9 +56,6 @@ public class GruntTask extends ExecTask {
         Execute exec = super.prepareExec();
         Map envVars = Execute.getEnvironmentVariables();
 
-//        exec.
-        System.out.println("stuff");
-
         return exec;
     }
 
